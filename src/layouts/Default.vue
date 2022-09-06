@@ -1,50 +1,106 @@
 <template>
   <div class="layout">
-    <header class="header">
-      <strong>
-        <g-link to="/">{{ $static.metadata.siteName }}</g-link>
-      </strong>
-      <nav class="nav">
-        <g-link class="nav__link" to="/">Home</g-link>
-        <g-link class="nav__link" to="/about/">About</g-link>
-      </nav>
-    </header>
-    <slot/>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+          aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ms-auto py-4 py-lg-0">
+            <li class="nav-item">
+              <g-link class="nav-link px-lg-3 py-3 py-lg-4" to="/">Home</g-link>
+            </li>
+            <li class="nav-item">
+              <g-link class="nav-link px-lg-3 py-3 py-lg-4" to="/about">About</g-link>
+            </li>
+            <li class="nav-item">
+              <g-link class="nav-link px-lg-3 py-3 py-lg-4" to="/post">Post</g-link>
+            </li>
+            <li class="nav-item">
+              <g-link class="nav-link px-lg-3 py-3 py-lg-4" to="/contact">Contact</g-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Main Content-->
+    <slot />
+    <!-- Footer-->
+    <footer class="border-top">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="#!">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#!">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#!">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2022</div>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
-<static-query>
-query {
-  metadata {
-    siteName
-  }
+<script>
+export default {
+  mounted() {
+    this.init()
+  },
+  methods: {
+    init() {
+      let scrollPos = 0;
+      const mainNav = document.getElementById('mainNav');
+      const headerHeight = mainNav.clientHeight;
+      window.addEventListener('scroll', function () {
+        const currentTop = document.body.getBoundingClientRect().top * -1;
+        if (currentTop < scrollPos) {
+          // Scrolling Up
+          if (currentTop > 0 && mainNav.classList.contains('is-fixed')) {
+            mainNav.classList.add('is-visible');
+          } else {
+            // console.log(123);
+            mainNav.classList.remove('is-visible', 'is-fixed');
+          }
+        } else {
+          // Scrolling Down
+          mainNav.classList.remove(['is-visible']);
+          if (currentTop > headerHeight && !mainNav.classList.contains('is-fixed')) {
+            mainNav.classList.add('is-fixed');
+          }
+        }
+        scrollPos = currentTop;
+      });
+    }
+  },
 }
-</static-query>
+</script>
 
 <style>
-body {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  margin:0;
-  padding:0;
-  line-height: 1.5;
-}
-
-.layout {
-  max-width: 760px;
-  margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  height: 80px;
-}
-
-.nav__link {
-  margin-left: 20px;
-}
 </style>
