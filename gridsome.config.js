@@ -6,5 +6,16 @@
 
 module.exports = {
   siteName: 'Bolg',
-  plugins: []
+  plugins: [
+    {
+      use: '@gridsome/source-filesystem',
+      options: {
+        typeName: 'Post',
+        path: './content/blog/**/*.md',
+      }
+    }
+  ],
+  templates: {
+    Post: '/blog/:year/:month/:day/:slug'
+  }
 }
