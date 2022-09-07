@@ -6,5 +6,14 @@
 
 module.exports = {
   siteName: 'Bolg',
-  plugins: []
+  siteDescription: 'Gridsome Web Bolg',
+  plugins: [],
+  templates: {
+    Post: [
+      {
+        path: '/post/:id',
+        component: './src/templates/Post.vue'
+      }
+    ]
+  }
 }

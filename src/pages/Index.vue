@@ -17,78 +17,75 @@
     <div class="container px-4 px-lg-5">
       <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
-          <!-- Post preview-->
-          <div class="post-preview">
-            <a href="post.html">
-              <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>
-              <h3 class="post-subtitle">Problems look mighty small from 150 miles up</h3>
-            </a>
-            <p class="post-meta">
-              Posted by
-              <a href="#!">Start Bootstrap</a>
-              on September 24, 2022
-            </p>
+          <div v-for="post in posts" :key="post.node.id">
+            <!-- Post preview-->
+            <div class="post-preview">
+              <g-link :to="`/post/${post.node.id}`">
+                <h2 class="post-title">{{ post.node.title }}</h2>
+                <h3 class="post-subtitle">{{ post.node.description }}</h3>
+              </g-link>
+              <p class="post-meta">
+                Posted by
+                <span>{{ post.node.author.username }}</span>
+                on {{ post.node.createdAt | date }}
+              </p>
+            </div>
+            <!-- Divider-->
+            <hr class="my-4" />
           </div>
-          <!-- Divider-->
-          <hr class="my-4" />
-          <!-- Post preview-->
-          <div class="post-preview">
-            <a href="post.html">
-              <h2 class="post-title">I believe every human has a finite number of heartbeats. I don't intend to waste
-                any of mine.</h2>
-            </a>
-            <p class="post-meta">
-              Posted by
-              <a href="#!">Start Bootstrap</a>
-              on September 18, 2022
-            </p>
-          </div>
-          <!-- Divider-->
-          <hr class="my-4" />
-          <!-- Post preview-->
-          <div class="post-preview">
-            <a href="post.html">
-              <h2 class="post-title">Science has not yet mastered prophecy</h2>
-              <h3 class="post-subtitle">We predict too much for the next year and yet far too little for the next ten.
-              </h3>
-            </a>
-            <p class="post-meta">
-              Posted by
-              <a href="#!">Start Bootstrap</a>
-              on August 24, 2022
-            </p>
-          </div>
-          <!-- Divider-->
-          <hr class="my-4" />
-          <!-- Post preview-->
-          <div class="post-preview">
-            <a href="post.html">
-              <h2 class="post-title">Failure is not an option</h2>
-              <h3 class="post-subtitle">Many say exploration is part of our destiny, but it’s actually our duty to
-                future generations.</h3>
-            </a>
-            <p class="post-meta">
-              Posted by
-              <a href="#!">Start Bootstrap</a>
-              on July 8, 2022
-            </p>
-          </div>
-          <!-- Divider-->
-          <hr class="my-4" />
           <!-- Pager-->
-          <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts
-              →</a></div>
+          <div class="d-flex justify-content-end mb-4">
+            <button class="btn btn-primary text-uppercase">Older Posts</button>
+          </div>
+          <!-- <Pager :info="pageInfo" /> -->
         </div>
       </div>
     </div>
   </Layout>
 </template>
 
+<page-query>
+  query {
+    posts: allPost(page: 1, perPage: 5) {
+      edges {
+        node {
+          id
+          title,
+          content,
+          description,
+          createdAt,
+          author {
+            username
+          }
+        }
+      }
+      totalCount
+      pageInfo {
+        currentPage
+        totalPages
+      }
+    }
+  }
+</page-query>
+
 <script>
+import { Pager } from 'gridsome'
+
 export default {
   name: 'HomePage',
+  components: {
+    Pager
+  },
   metaInfo: {
     title: 'Home'
+  },
+  computed: {
+    posts() {
+      return this.$page.posts.edges ?? []
+    },
+    pageInfo() {
+      return this.$page.posts.pageInfo ?? {}
+    }
   }
 }
 </script>

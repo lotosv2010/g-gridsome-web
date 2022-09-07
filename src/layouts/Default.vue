@@ -3,7 +3,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
       <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+        <g-link class="navbar-brand" to="/">Start Bootstrap</g-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
           aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
@@ -17,9 +17,9 @@
             <li class="nav-item">
               <g-link class="nav-link px-lg-3 py-3 py-lg-4" to="/about">About</g-link>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <g-link class="nav-link px-lg-3 py-3 py-lg-4" to="/post">Post</g-link>
-            </li>
+            </li> -->
             <li class="nav-item">
               <g-link class="nav-link px-lg-3 py-3 py-lg-4" to="/contact">Contact</g-link>
             </li>

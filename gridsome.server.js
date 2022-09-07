@@ -4,10 +4,26 @@
 
 // Changes here require a server restart.
 // To restart press CTRL + C in terminal and run `gridsome develop`
+const axios = require('axios')
 
 module.exports = function (api) {
-  api.loadSource(({ addCollection }) => {
+  api.loadSource(async ({ addCollection }) => {
     // Use the Data Store API here: https://gridsome.org/docs/data-store-api/
+    const collection = addCollection('Post')
+
+    const { data } = await axios.get('https://api.realworld.io/api/articles')
+
+    for (const item of data.articles) {
+      collection.addNode({
+        id: item.slug,
+        title: item.title,
+        content: item.body,
+        description: item.description,
+        tagList: item.tagsList,
+        createdAt: item.createdAt,
+        author: item.author
+      })
+    }
   })
 
   api.createPages(({ createPage }) => {
